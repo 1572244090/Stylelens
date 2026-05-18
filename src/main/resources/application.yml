@@ -1,0 +1,63 @@
+# ============================================
+# Stylelens 应用主配置文件
+# ============================================
+
+# 激活的环境配置文件（dev: 开发, test: 测试, prod: 生产）
+spring:
+  profiles:
+    active: dev
+  
+  # 应用基础配置
+  application:
+    name: stylelens-api
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  tomcat:
+    max-threads: 200
+    min-spare-threads: 20
+    connection-timeout: 20000
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.stylelens.www.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.stylelens.www: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/stylelens.log
+    max-size: 10MB
+    max-history: 30
+
+# 应用自定义配置
+app:
+  # 分页默认配置
+  page:
+    default-size: 10
+    max-size: 100
