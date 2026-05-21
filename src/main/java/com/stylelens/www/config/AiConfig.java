@@ -18,6 +18,8 @@ public class AiConfig {
 
     private ChatConfig chat = new ChatConfig();
 
+    private VisionConfig vision = new VisionConfig();
+
     private ImageConfig image = new ImageConfig();
 
     private RetryConfig retry = new RetryConfig();
@@ -30,10 +32,23 @@ public class AiConfig {
 
     @Data
     public static class ChatOptions {
-        private String model = "qwen-turbo";
+        private String model = "qwen3.5-122b-a10b";
         private Double temperature = 0.7;
         private Double topP = 0.8;
         private Integer maxTokens = 2000;
+    }
+
+    @Data
+    public static class VisionConfig {
+        private VisionOptions options = new VisionOptions();
+        private Long timeout = 60000L;
+    }
+
+    @Data
+    public static class VisionOptions {
+        private String model = "qwen-vl-max";
+        private Double temperature = 0.1;
+        private Boolean multiModel = true;
     }
 
     @Data
@@ -44,7 +59,7 @@ public class AiConfig {
 
     @Data
     public static class ImageOptions {
-        private String model = "wanx-v1";
+        private String model = "qwen-image-2.0-pro";
         private String size = "1024*1024";
     }
 
@@ -66,6 +81,14 @@ public class AiConfig {
                 .withModel(chat.getOptions().getModel())
                 .withTemperature(chat.getOptions().getTemperature())
                 .withTopP(chat.getOptions().getTopP())
+                .build();
+    }
+
+    public DashScopeChatOptions toVisionOptions() {
+        return DashScopeChatOptions.builder()
+                .withModel(vision.getOptions().getModel())
+                .withTemperature(vision.getOptions().getTemperature())
+                .withMultiModel(vision.getOptions().getMultiModel())
                 .build();
     }
 }
